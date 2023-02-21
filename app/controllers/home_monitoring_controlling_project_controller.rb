@@ -54,7 +54,9 @@ class HomeMonitoringControllingProjectController < ApplicationController
                                             #{@totalIssues})*100 as percent,
                                             (SELECT COUNT(1) FROM issues where project_id in (#{stringSqlProjectsSubProjects}) and status_id = issue_statuses.id)
                                             AS totalissues
-                                            FROM issue_statuses;")
+                                            FROM issue_statuses
+                                            where id in (SELECT status_id FROM issues where project_id in (#{stringSqlProjectsSubProjects}))
+                                            ;")
     else
       @statuses = nil
     end                                          
